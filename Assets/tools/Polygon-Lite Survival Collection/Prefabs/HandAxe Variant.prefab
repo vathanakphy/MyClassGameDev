@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HandAxe Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3290598117132601010, guid: c78b2f6da8c496044acf68bbb77bee45, type: 3}
+      propertyPath: m_TagString
+      value: PlayerWeapon
+      objectReference: {fileID: 0}
     - target: {fileID: 4009919533279016670, guid: c78b2f6da8c496044acf68bbb77bee45, type: 3}
       propertyPath: m_Convex
       value: 1
