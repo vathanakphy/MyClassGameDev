@@ -13,6 +13,9 @@ public class PlayerLocalmotionInput : MonoBehaviour, PlayerControll.IPlayerLocal
     public bool ThrowModifierHeld { get; private set; }
     public bool ThrowPressed { get; set; }
 
+    // ✅ Added for Attack
+    public bool AttackPressed { get; set; }
+
     private void OnEnable()
     {
         PlayerControls = new PlayerControll();
@@ -54,5 +57,14 @@ public class PlayerLocalmotionInput : MonoBehaviour, PlayerControll.IPlayerLocal
             ThrowPressed = true;
         else if (context.canceled)
             ThrowPressed = false;
+    }
+
+    // ✅ NEW — Attack input callback
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            AttackPressed = true;
+        else if (context.canceled)
+            AttackPressed = false;
     }
 }

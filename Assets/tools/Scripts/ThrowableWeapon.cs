@@ -27,8 +27,14 @@ public class ThrowableWeapon : MonoBehaviour
         transform.SetParent(null);
         rb.isKinematic = false;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        rb.AddForce(force, ForceMode.VelocityChange);
-        rb.AddTorque(transform.right * 20f, ForceMode.VelocityChange);
+
+        Vector3 realisticForce = force + Vector3.up * (force.magnitude * 0.15f);
+        rb.AddForce(realisticForce, ForceMode.VelocityChange);
+
+        rb.AddTorque(transform.right * 25f + transform.up * 10f, ForceMode.VelocityChange);
+
+        rb.AddTorque(Random.insideUnitSphere * 5f, ForceMode.VelocityChange);
+
         isThrown = true;
     }
 
@@ -40,10 +46,8 @@ public class ThrowableWeapon : MonoBehaviour
         rb.isKinematic = true;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
         isThrown = false;
 
-        // ✅ Spawn pickup version on the ground
         if (pickupAxePrefab != null)
         {
             Vector3 spawnPos = transform.position + Vector3.up * 0.05f;

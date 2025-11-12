@@ -23,7 +23,6 @@ public class AnimalAI : MonoBehaviour
 
     void Update()
     {
-        // Check if close to destination and wait before next move
         if (!agent.pathPending && agent.remainingDistance < 0.5f && Time.time > nextMoveTime)
         {
             nextMoveTime = Time.time + waitTime;
@@ -35,7 +34,6 @@ public class AnimalAI : MonoBehaviour
 
     void PickNewDestination()
     {
-        // Choose a random point within roam radius
         Vector3 randomPos = startPosition + new Vector3(
             Random.Range(-roamRadius, roamRadius),
             0,
@@ -51,11 +49,9 @@ public class AnimalAI : MonoBehaviour
 
     void AvoidObstacles()
     {
-        // Cast a ray forward to check for obstacles
         Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
         if (Physics.Raycast(ray, obstacleAvoidanceDistance))
         {
-            // Turn randomly to avoid obstacle
             transform.Rotate(Vector3.up, Random.Range(90f, 180f));
             PickNewDestination();
         }
@@ -63,7 +59,6 @@ public class AnimalAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // If hit by weapon, take damage
         if (collision.gameObject.CompareTag("PlayerWeapon"))
         {
             Damageable dmg = GetComponent<Damageable>();

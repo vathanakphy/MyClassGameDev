@@ -4703,6 +4703,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  spawnOnDeathPrefab: {fileID: 4666017353234428848, guid: c6606374ad6058448b3ce4a22865ff19, type: 3}
+  spawnOffset: {x: -5, y: 0.6, z: -38}
 --- !u!195 &614198286
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5173,10 +5175,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 684179347}
   _playerCamera: {fileID: 111804759}
+  _animator: {fileID: 0}
   runAcceleration: 8
   runSpeed: 3.6
   sprintSpeed: 6.5
-  drag: 20
+  gravity: -9.81
+  groundCheckDistance: 0.3
   lookSenseH: 0.1
   lookSenseV: 0.1
   lookLimitV: 89
@@ -10138,6 +10142,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8071291913634627653, guid: 265a520e965793f478ab9373b058a63b, type: 3}
+      propertyPath: spawnOffset.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8071291913634627653, guid: 265a520e965793f478ab9373b058a63b, type: 3}
+      propertyPath: spawnOffset.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8071291913634627653, guid: 265a520e965793f478ab9373b058a63b, type: 3}
+      propertyPath: spawnOffset.z
+      value: -38
+      objectReference: {fileID: 0}
+    - target: {fileID: 8071291913634627653, guid: 265a520e965793f478ab9373b058a63b, type: 3}
+      propertyPath: spawnOnDeathPrefab
+      value: 
+      objectReference: {fileID: 4666017353234428848, guid: c6606374ad6058448b3ce4a22865ff19, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

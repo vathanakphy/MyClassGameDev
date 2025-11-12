@@ -1,10 +1,10 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
     [Header("Weapon Setup")]
     [SerializeField] private Transform handTransform;
-
     [SerializeField] private Vector3 handOffsetPosition;
     [SerializeField] private Vector3 handOffsetRotation;
 
@@ -18,15 +18,26 @@ public class PlayerWeaponHandler : MonoBehaviour
     private PlayerLocalmotionInput input;
     private Camera cam;
 
+    private Animator animator;
+
     private void Awake()
     {
         input = GetComponent<PlayerLocalmotionInput>();
         cam = Camera.main;
+
+        animator = GetComponent<Animator>();
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
-        // Check throw input
+        if (currentWeapon != null && input.AttackPressed)
+        {
+            PerformAttack();
+            input.AttackPressed = false; // Reset attack input
+        }
+
         if (currentWeapon != null && input.ThrowModifierHeld && input.ThrowPressed)
         {
             ThrowWeapon();
@@ -43,7 +54,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         currentWeapon.transform.localPosition = handOffsetPosition;
         currentWeapon.transform.localRotation = Quaternion.Euler(handOffsetRotation);
 
-        // Remove physics while held
+        // Disable physics while held
         currentRb = currentWeapon.GetComponent<Rigidbody>();
         if (currentRb != null)
         {
@@ -78,13 +89,40 @@ public class PlayerWeaponHandler : MonoBehaviour
         currentRb.isKinematic = false;
         currentRb.detectCollisions = true;
 
-        // Add forward throw force + spin
-        Vector3 throwDir = cam.transform.forward + Vector3.up * 0.1f;
-        currentRb.AddForce(throwDir.normalized * throwForce, ForceMode.VelocityChange);
+        Vector3 throwDir = (cam.transform.forward + Vector3.up * 0.2f).normalized;
+        Vector3 throwForceVector = throwDir * throwForce;
+
+        currentRb.AddForce(throwForceVector, ForceMode.VelocityChange);
         currentRb.AddTorque(Random.insideUnitSphere * throwSpin, ForceMode.VelocityChange);
+
+        var throwable = currentWeapon.GetComponent<ThrowableWeapon>();
+        if (throwable != null)
+        {
+            throwable.Throw(throwForceVector);
+        }
 
         // Clear reference
         currentWeapon = null;
         currentRb = null;
+    }
+
+
+    private void PerformAttack()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsAttack", true);
+            StartCoroutine(ResetAttackAnim(2.23f)); // Reset after short time (adjust to match your animation)
+        }
+
+        // Optional: add melee hit detection, raycast, or trigger logic here
+        Debug.Log("Player performed attack with weapon!");
+    }
+
+    private IEnumerator ResetAttackAnim(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (animator != null)
+            animator.SetBool("IsAttack", false);
     }
 }

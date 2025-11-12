@@ -73,6 +73,15 @@ namespace CharactorController
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""6afe5c9d-4b18-4151-8007-49493e208c08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,17 @@ namespace CharactorController
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f38f2e4-6a2a-40d5-8176-941748ca77db"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ namespace CharactorController
             m_PlayerLocalMotionMap_Sprint = m_PlayerLocalMotionMap.FindAction("Sprint", throwIfNotFound: true);
             m_PlayerLocalMotionMap_ThrowModifier = m_PlayerLocalMotionMap.FindAction("ThrowModifier", throwIfNotFound: true);
             m_PlayerLocalMotionMap_Throw = m_PlayerLocalMotionMap.FindAction("Throw", throwIfNotFound: true);
+            m_PlayerLocalMotionMap_Attack = m_PlayerLocalMotionMap.FindAction("Attack", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -253,6 +274,7 @@ namespace CharactorController
         private readonly InputAction m_PlayerLocalMotionMap_Sprint;
         private readonly InputAction m_PlayerLocalMotionMap_ThrowModifier;
         private readonly InputAction m_PlayerLocalMotionMap_Throw;
+        private readonly InputAction m_PlayerLocalMotionMap_Attack;
         public struct PlayerLocalMotionMapActions
         {
             private @PlayerControll m_Wrapper;
@@ -262,6 +284,7 @@ namespace CharactorController
             public InputAction @Sprint => m_Wrapper.m_PlayerLocalMotionMap_Sprint;
             public InputAction @ThrowModifier => m_Wrapper.m_PlayerLocalMotionMap_ThrowModifier;
             public InputAction @Throw => m_Wrapper.m_PlayerLocalMotionMap_Throw;
+            public InputAction @Attack => m_Wrapper.m_PlayerLocalMotionMap_Attack;
             public InputActionMap Get() { return m_Wrapper.m_PlayerLocalMotionMap; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -286,6 +309,9 @@ namespace CharactorController
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
 
             private void UnregisterCallbacks(IPlayerLocalMotionMapActions instance)
@@ -305,6 +331,9 @@ namespace CharactorController
                 @Throw.started -= instance.OnThrow;
                 @Throw.performed -= instance.OnThrow;
                 @Throw.canceled -= instance.OnThrow;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
             }
 
             public void RemoveCallbacks(IPlayerLocalMotionMapActions instance)
@@ -329,6 +358,7 @@ namespace CharactorController
             void OnSprint(InputAction.CallbackContext context);
             void OnThrowModifier(InputAction.CallbackContext context);
             void OnThrow(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
     }
 }

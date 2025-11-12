@@ -3,7 +3,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public float lifeTime = 5f;
-    public float damage = 25f;
+    public float damage = 50f;
 
     void Start()
     {
