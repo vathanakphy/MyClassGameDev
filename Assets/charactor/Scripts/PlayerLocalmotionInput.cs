@@ -11,7 +11,7 @@ public class PlayerLocalmotionInput : MonoBehaviour, PlayerControll.IPlayerLocal
 
     public bool IsSprinting { get; private set; }
     public bool ThrowModifierHeld { get; private set; }
-    public bool ThrowPressed { get; set; } // ✅ Make setter public
+    public bool ThrowPressed { get; set; }
 
     private void OnEnable()
     {
@@ -55,5 +55,4 @@ public class PlayerLocalmotionInput : MonoBehaviour, PlayerControll.IPlayerLocal
         else if (context.canceled)
             ThrowPressed = false;
     }
-
 }
